@@ -1,0 +1,17 @@
+<html> 
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="style6.css">
+		<h1>Mon titre principal</h1> 
+	</head>
+	<body>
+                <h2>Mon titre secondaire</h2>
+		<span class="rouge">
+		Salut
+		</span><br/>
+		<p>Mon premier paragraphe</p>
+		<p>Mon second paragraphe</p>
+		<a href="http://unsite.fr">
+		<img src="nature-images.jpg" />
+	</body>
+</html> 
