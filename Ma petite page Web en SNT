@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html> 
+
     <head>
        <h1> Ma petite page Web en SNT</h1>
     </head>
+
     <body>
        <h2> Hello world!!!</h2>
     </body>
-    
+
 </html>
