@@ -1,30 +1,71 @@
-<!DOCTYPE html>
-<html> 
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lecteur audio simple</title>
+  <style>
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; padding: 2rem; background:#f7f7fb; color:#111 }
+    .card{ max-width:520px; margin:0 auto; background:white; padding:1.25rem; border-radius:12px; box-shadow:0 6px 18px rgba(20,20,50,0.08) }
+    button{ padding:0.6rem 1rem; font-size:1rem; border-radius:8px; border:0; cursor:pointer }
+    #playBtn{ background:#0066ff; color:white }
+    #pauseBtn{ background:#e0e0e0; color:#111; margin-left:0.5rem }
+    input[type=file]{ display:block; margin-top:0.75rem }
+    .progress{ height:8px; background:#eee; border-radius:8px; overflow:hidden; margin-top:0.75rem }
+    .progress > i{ display:block; height:100%; width:0%; background:#0066ff }
+    .meta{ margin-top:0.5rem; font-size:0.9rem; color:#444 }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Lecteur audio simple</h2>
+    <p>Utilisez le bouton pour démarrer la lecture d'une piste audio. Vous pouvez charger un fichier local ou laisser le chemin d'exemple dans la balise <code>&lt;audio&gt;</code>.</p>
 
-    <head>
-       <h1> Jeu télévisé</h1>
-    </head>
 
-    <body>
-       <h2> Hello world!!!</h2>
-       <audio id="Hello" src="hello.mp3"></audio>
-       <button id="playButton">Play</button>
-       <button id="pauseButton">Pause</button>
-       <audio id="Gagné" src="gagné.mp3"></audio>
-       <button id="playButton">Play</button>
-       <button id="pauseButton">Pause</button>
-       <audio id="Perdu" src="perdu.mp3"></audio>
-       <button id="playButton">Play</button>
-       <button id="pauseButton">Pause</button>
-       <audio id="Perdu 2" src="perdu 2.mp3"></audio>
-       <button id="playButton">Play</button>
-       <button id="pauseButton">Pause</button>
-       <audio id="Carnival" src="carnival.mp3"></audio>
-       <button id="playButton">Play</button>
-       <button id="pauseButton">Pause</button>
-       <audio id="Circus" src="circus.mp3"></audio>
-       <button id="playButton">Play</button>
-       <button id="pauseButton">Pause</button>
-    </body>
+    <!-- Balise audio : changez src vers votre fichier si vous voulez un fichier embarqué -->
+    <audio id="hello" preload="metadata">
+      <source src="hello.mp3" type="audio/mpeg">
+      <!-- Si vous ouvrez ce fichier localement et que vous n'avez pas d'audio.mp3, utilisez le bouton "Choisir un fichier" ci-dessous. -->
+      Votre navigateur ne supporte pas la lecture audio.
+    </audio>
 
+
+    <div style="margin-top:0.75rem">
+      <button id="playBtn">▶️ Lire</button>
+      <button id="pauseBtn">⏸️ Pause</button>
+      <input id="file" type="file" accept="audio/*" />
+    </div>
+
+
+    <div class="progress" aria-hidden="true" title="Barre de progression">
+      <i id="bar"></i>
+    </div>
+
+
+    <div class="meta">
+      <span id="time">00:00 / 00:00</span>
+      <div id="filename"></div>
+    </div>
+  </div>
+
+
+  <script>
+    const hello = document.getElementById('hello');
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const fileInput = document.getElementById('file');
+    const bar = document.getElementById('bar');
+    const timeLabel = document.getElementById('time');
+    const filename = document.getElementById('filename');
+
+
+    function formatTime(s){
+      if (isNaN(s) || s === Infinity) return '00:00';
+      const m = Math.floor(s/60).toString().padStart(2,'0');
+      const sec = Math.floor(s%60).toString().padStart(2,'0');
+      return `${m}:${sec}`;
+    }
+
+
+    playBtn.addEventListener('click', () => {
 </html>
