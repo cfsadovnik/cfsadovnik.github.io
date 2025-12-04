@@ -1,14 +1,84 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="un.css">
-       <h1> Jeu télévisé semaine culturelle 2025 </h1>
-    </head>
-    <body>
-       <h2> Lycée Francais Paul Valéry</h2>
-        
-        <p>Bonjour, bienvenus:</p>
-    <a href="https://cfsadovnik.github.io/Jeu télévisé" target="_blank">Jeu télévisé</a>     
-        
-    </body>        
-</html>
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Jeu télévisé - Clowns</title>
+<style>
+:root{--accent:#ff3b3b;--glass:rgba(255,255,255,0.08);--card:#ffffff;}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
+body{
+/* Remplacez l'URL ci-dessous par l'URL RAW de votre image d'arrière-plan dans le dépôt GitHub */
+background-image: url('https://raw.githubusercontent.com/USERNAME/REPO/main/assets/background-clowns.jpg');
+background-size: cover;background-position:center;display:flex;align-items:center;justify-content:center;color:#111;
+}
+.app{backdrop-filter:blur(6px);background:linear-gradient(180deg, rgba(255,255,255,0.80), rgba(255,255,255,0.65));border-radius:16px;padding:20px;max-width:1000px;width:95%;box-shadow:0 10px 30px rgba(0,0,0,0.25)}
+header{display:flex;align-items:center;gap:16px}
+.logo{width:88px;height:88px;border-radius:8px;overflow:hidden;flex-shrink:0}
+.logo img{width:100%;height:100%;object-fit:cover}
+h1{margin:0;font-size:1.6rem}
+p.sub{margin:4px 0 12px;color:#333}
+
+
+.grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+
+
+/* Player / Buttons */
+.controls{display:grid;gap:10px}
+.tracks{display:flex;flex-wrap:wrap;gap:8px}
+.track-btn{padding:10px 12px;border-radius:10px;border:2px solid rgba(0,0,0,0.06);background:var(--glass);cursor:pointer;font-weight:600}
+.track-btn.playing{outline:3px solid rgba(255,59,59,0.15);transform:translateY(-2px)}
+
+
+.actions{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.btn{padding:12px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
+.btn.primary{background:var(--accent);color:white}
+.btn.secondary{background:rgba(0,0,0,0.06)}
+
+
+/* Diaporama modal */
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6)}
+.modal.open{display:flex}
+.slideshow{width:min(1000px,92vw);height:min(650px,78vh);background:white;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;align-items:center;justify-content:center}
+.slide img{max-width:100%;max-height:100%;object-fit:contain}
+.slide-controls{padding:8px;display:flex;justify-content:space-between}
+
+
+/* Table scores */
+.scores{background:linear-gradient(180deg,#fff,#fff);border-radius:12px;padding:12px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px;border-bottom:1px solid rgba(0,0,0,0.06);text-align:left}
+.score-input{width:80px}
+.small{font-size:0.9rem}
+
+
+footer{margin-top:12px;font-size:0.85rem;color:#333}
+
+
+@media(max-width:880px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div class="logo"><img src="https://raw.githubusercontent.com/USERNAME/REPO/main/assets/logo.png" alt="logo"/></div>
+<div>
+<h1>Jeu télévisé — Clowns</h1>
+<p class="sub">Cliquez sur les boutons pour jouer des pistes audio. Diaporama et tableau des ponctuations inclus.</p>
+</div>
+</header>
+
+
+<main class="grid" style="margin-top:12px">
+<section class="controls">
+<div>
+<strong>Effets / Jingles audio</strong>
+<div class="tracks" id="tracks">
+<!-- Les boutons sont générés dynamiquement par JavaScript. -->
+</div>
+</div>
+
+
+<div class="actions">
+<button class="btn primary" id="open-slideshow">Ouvrir le diaporama</button>
