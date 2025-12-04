@@ -1,84 +1,334 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Jeu télévisé - Clowns</title>
-<style>
-:root{--accent:#ff3b3b;--glass:rgba(255,255,255,0.08);--card:#ffffff;}
-html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
-body{
-/* Remplacez l'URL ci-dessous par l'URL RAW de votre image d'arrière-plan dans le dépôt GitHub */
-background-image: url('https://raw.githubusercontent.com/USERNAME/REPO/main/assets/background-clowns.jpg');
-background-size: cover;background-position:center;display:flex;align-items:center;justify-content:center;color:#111;
-}
-.app{backdrop-filter:blur(6px);background:linear-gradient(180deg, rgba(255,255,255,0.80), rgba(255,255,255,0.65));border-radius:16px;padding:20px;max-width:1000px;width:95%;box-shadow:0 10px 30px rgba(0,0,0,0.25)}
-header{display:flex;align-items:center;gap:16px}
-.logo{width:88px;height:88px;border-radius:8px;overflow:hidden;flex-shrink:0}
-.logo img{width:100%;height:100%;object-fit:cover}
-h1{margin:0;font-size:1.6rem}
-p.sub{margin:4px 0 12px;color:#333}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jeu télévisé - Clowns</title>
+  <style>
+    :root{--accent:#ff3b3b;--glass:rgba(255,255,255,0.08);--card:#ffffff;}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{
+      /* Remplacez l'URL ci-dessous par l'URL RAW de votre image d'arrière-plan dans le dépôt GitHub */
+      background-image: url('https://raw.githubusercontent.com/USERNAME/REPO/main/assets/background-clowns.jpg');
+      background-size: cover;background-position:center;display:flex;align-items:center;justify-content:center;color:#111;
+    }
+    .app{backdrop-filter:blur(6px);background:linear-gradient(180deg, rgba(255,255,255,0.80), rgba(255,255,255,0.65));border-radius:16px;padding:20px;max-width:1000px;width:95%;box-shadow:0 10px 30px rgba(0,0,0,0.25)}
+    header{display:flex;align-items:center;gap:16px}
+    .logo{width:88px;height:88px;border-radius:8px;overflow:hidden;flex-shrink:0}
+    .logo img{width:100%;height:100%;object-fit:cover}
+    h1{margin:0;font-size:1.6rem}
+    p.sub{margin:4px 0 12px;color:#333}
 
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
 
-.grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+    /* Player / Buttons */
+    .controls{display:grid;gap:10px}
+    .tracks{display:flex;flex-wrap:wrap;gap:8px}
+    .track-btn{padding:10px 12px;border-radius:10px;border:2px solid rgba(0,0,0,0.06);background:var(--glass);cursor:pointer;font-weight:600}
+    .track-btn.playing{outline:3px solid rgba(255,59,59,0.15);transform:translateY(-2px)}
 
+    .actions{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    .btn{padding:12px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
+    .btn.primary{background:var(--accent);color:white}
+    .btn.secondary{background:rgba(0,0,0,0.06)}
 
-/* Player / Buttons */
-.controls{display:grid;gap:10px}
-.tracks{display:flex;flex-wrap:wrap;gap:8px}
-.track-btn{padding:10px 12px;border-radius:10px;border:2px solid rgba(0,0,0,0.06);background:var(--glass);cursor:pointer;font-weight:600}
-.track-btn.playing{outline:3px solid rgba(255,59,59,0.15);transform:translateY(-2px)}
+    /* Diaporama modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6)}
+    .modal.open{display:flex}
+    .slideshow{width:min(1000px,92vw);height:min(650px,78vh);background:white;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+    .slide{flex:1;display:flex;align-items:center;justify-content:center}
+    .slide img{max-width:100%;max-height:100%;object-fit:contain}
+    .slide-controls{padding:8px;display:flex;justify-content:space-between}
 
+    /* Table scores */
+    .scores{background:linear-gradient(180deg,#fff,#fff);border-radius:12px;padding:12px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px;border-bottom:1px solid rgba(0,0,0,0.06);text-align:left}
+    .score-input{width:80px}
+    .small{font-size:0.9rem}
 
-.actions{display:flex;flex-direction:column;gap:10px;margin-top:8px}
-.btn{padding:12px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
-.btn.primary{background:var(--accent);color:white}
-.btn.secondary{background:rgba(0,0,0,0.06)}
+    footer{margin-top:12px;font-size:0.85rem;color:#333}
 
-
-/* Diaporama modal */
-.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6)}
-.modal.open{display:flex}
-.slideshow{width:min(1000px,92vw);height:min(650px,78vh);background:white;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
-.slide{flex:1;display:flex;align-items:center;justify-content:center}
-.slide img{max-width:100%;max-height:100%;object-fit:contain}
-.slide-controls{padding:8px;display:flex;justify-content:space-between}
-
-
-/* Table scores */
-.scores{background:linear-gradient(180deg,#fff,#fff);border-radius:12px;padding:12px}
-table{width:100%;border-collapse:collapse}
-th,td{padding:8px;border-bottom:1px solid rgba(0,0,0,0.06);text-align:left}
-.score-input{width:80px}
-.small{font-size:0.9rem}
-
-
-footer{margin-top:12px;font-size:0.85rem;color:#333}
-
-
-@media(max-width:880px){.grid{grid-template-columns:1fr}}
-</style>
+    @media(max-width:880px){.grid{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-<div class="app">
-<header>
-<div class="logo"><img src="https://raw.githubusercontent.com/USERNAME/REPO/main/assets/logo.png" alt="logo"/></div>
-<div>
-<h1>Jeu télévisé — Clowns</h1>
-<p class="sub">Cliquez sur les boutons pour jouer des pistes audio. Diaporama et tableau des ponctuations inclus.</p>
-</div>
-</header>
+  <div class="app">
+    <header>
+      <div class="logo"><img src="https://raw.githubusercontent.com/USERNAME/REPO/main/assets/logo.png" alt="logo"/></div>
+      <div>
+        <h1>Jeu télévisé — Clowns</h1>
+        <p class="sub">Cliquez sur les boutons pour jouer des pistes audio. Diaporama et tableau des ponctuations inclus.</p>
+      </div>
+    </header>
 
+    <main class="grid" style="margin-top:12px">
+      <section class="controls">
+        <div>
+          <strong>Effets / Jingles audio</strong>
+          <div class="tracks" id="tracks">
+            <!-- Les boutons sont générés dynamiquement par JavaScript. -->
+          </div>
+        </div>
 
-<main class="grid" style="margin-top:12px">
-<section class="controls">
-<div>
-<strong>Effets / Jingles audio</strong>
-<div class="tracks" id="tracks">
-<!-- Les boutons sont générés dynamiquement par JavaScript. -->
-</div>
-</div>
+        <div class="actions">
+        <!-- Chronomètre -->
+        <div class="timer" style="padding:10px;border:2px solid #ffcc00;border-radius:12px;background:rgba(255,255,255,0.7);margin-bottom:12px;">
+          <strong>Chronomètre</strong><br>
+          <div id="timer-display" style="font-size:1.8rem;margin:6px 0;font-weight:bold;">00:00</div>
+          <button class="btn" id="timer-start">Démarrer</button>
+          <button class="btn" id="timer-stop">Arrêter</button>
+          <button class="btn" id="timer-reset">Reset</button>
+        </div>
+          <button class="btn primary" id="open-slideshow">Ouvrir le diaporama</button>
+          <button class="btn secondary" id="open-scores">Ouvrir le tableau des ponctuations</button>
+          <div style="display:flex;gap:8px">
+            <button class="btn" id="stop-all">Arrêter audio</button>
+            <button class="btn" id="mute-all">Couper / Rétablir son</button>
+          </div>
+        </div>
 
+        <div style="margin-top:8px" class="small">Note: remplacez les URLs de démonstration ci-dessous par celles de votre dépôt GitHub (RAW) dans la variable <code>ASSETS</code> du script.</div>
+      </section>
 
-<div class="actions">
-<button class="btn primary" id="open-slideshow">Ouvrir le diaporama</button>
+      <aside>
+        <div class="scores" id="scores-panel">
+          <h3 style="margin-top:0">Tableau rapide des scores</h3>
+          <div style="display:flex;gap:8px;margin-bottom:8px">
+            <input id="new-player" placeholder="Nom du joueur" style="flex:1;padding:8px;border-radius:8px;border:1px solid #ddd" />
+            <button class="btn primary" id="add-player">Ajouter</button>
+          </div>
+
+          <div style="max-height:360px;overflow:auto">
+            <table id="scores-table">
+              <thead><tr><th>Joueur</th><th>Points</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="btn" id="export-csv">Exporter CSV</button>
+            <button class="btn" id="import-csv">Charger CSV (depôt GitHub)</button>
+            <input id="csv-url" placeholder="URL RAW CSV (GitHub)" style="flex:1;padding:8px;border-radius:8px;border:1px solid #ddd" />
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>Fichier HTML autonome — modifiez les URLs pour pointer sur votre dépôt GitHub.</footer>
+  </div>
+
+  <!-- Modal diaporama -->
+  <div class="modal" id="slideshow-modal" aria-hidden="true">
+    <div class="slideshow" role="dialog" aria-modal="true">
+      <div class="slide" id="slide-container">
+        <img src="" alt="slide image" id="slide-img"/>
+      </div>
+      <div class="slide-controls">
+        <div>
+          <button id="prev-slide" class="btn">◀ Préc</button>
+          <button id="next-slide" class="btn">Suiv ▶</button>
+        </div>
+        <div>
+          <button id="close-slideshow" class="btn">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="global-audio"></audio>
+
+  <script>
+    /***********************
+     * CONFIG - remplacez les URLs ci-dessous par vos assets RAW GitHub
+     ***********************/
+    const ASSETS = {
+      tracks: [
+        {id: 'jingle1', label: 'Jingle 1', url: 'https://raw.githubusercontent.com/USERNAME/REPO/main/audio/jingle1.mp3'},
+        {id: 'laugh', label: 'Rire', url: 'https://raw.githubusercontent.com/USERNAME/REPO/main/audio/laugh.mp3'},
+        {id: 'buzz', label: 'Buzzer', url: 'https://raw.githubusercontent.com/USERNAME/REPO/main/audio/buzzer.mp3'},
+        {id: 'applause', label: 'Applaudissements', url: 'https://raw.githubusercontent.com/USERNAME/REPO/main/audio/applause.mp3'}
+      ],
+      slides: [
+        'https://raw.githubusercontent.com/USERNAME/REPO/main/assets/slide1.jpg',
+        'https://raw.githubusercontent.com/USERNAME/REPO/main/assets/slide2.jpg',
+        'https://raw.githubusercontent.com/USERNAME/REPO/main/assets/slide3.jpg'
+      ],
+      defaultLogo: 'https://raw.githubusercontent.com/USERNAME/REPO/main/assets/logo.png'
+    };
+
+    /***********************
+     * Audio buttons
+     ***********************/
+    const tracksContainer = document.getElementById('tracks');
+    const audioEl = document.getElementById('global-audio');
+    let muted = false;
+
+    function createTrackButtons(){
+      ASSETS.tracks.forEach(t =>{
+        const btn = document.createElement('button');
+        btn.className = 'track-btn';
+        btn.textContent = t.label;
+        btn.dataset.url = t.url;
+        btn.dataset.id = t.id;
+        btn.addEventListener('click', async (e)=>{
+          playAudio(t.url, btn);
+        });
+        tracksContainer.appendChild(btn);
+      });
+    }
+
+    function playAudio(url, btn){
+      // Si un même fichier est déjà en cours, on le met en pause
+      if(!url) return;
+      if(audioEl.src !== url){
+        audioEl.src = url;
+      }
+      if(audioEl.paused){
+        audioEl.play().catch(err=>console.warn('Playback failed', err));
+        document.querySelectorAll('.track-btn').forEach(b=>b.classList.remove('playing'));
+        btn.classList.add('playing');
+      } else {
+        audioEl.pause();
+        btn.classList.remove('playing');
+      }
+    }
+
+    document.getElementById('stop-all').addEventListener('click', ()=>{
+      audioEl.pause();audioEl.currentTime=0;document.querySelectorAll('.track-btn').forEach(b=>b.classList.remove('playing'));
+    });
+
+    document.getElementById('mute-all').addEventListener('click', ()=>{
+      muted = !muted;audioEl.muted = muted;document.getElementById('mute-all').textContent = muted? 'Son rétabli' : 'Couper / Rétablir son';
+    });
+
+    /***********************
+     * Diaporama
+     ***********************/
+    const slideshowModal = document.getElementById('slideshow-modal');
+    const slideImg = document.getElementById('slide-img');
+    let slideIndex = 0;
+
+    function openSlideshow(start=0){
+      slideIndex = start; showSlide(slideIndex); slideshowModal.classList.add('open'); slideshowModal.setAttribute('aria-hidden','false');
+    }
+    function closeSlideshow(){ slideshowModal.classList.remove('open'); slideshowModal.setAttribute('aria-hidden','true'); }
+    function showSlide(i){
+      if(ASSETS.slides.length===0){slideImg.alt='Aucune image configurée';slideImg.src='';return}
+      if(i<0) i = ASSETS.slides.length-1; if(i>=ASSETS.slides.length) i=0; slideIndex = i;
+      slideImg.src = ASSETS.slides[slideIndex];
+    }
+
+    document.getElementById('open-slideshow').addEventListener('click', ()=>openSlideshow());
+    document.getElementById('close-slideshow').addEventListener('click', closeSlideshow);
+    document.getElementById('next-slide').addEventListener('click', ()=>{ showSlide(slideIndex+1) });
+    document.getElementById('prev-slide').addEventListener('click', ()=>{ showSlide(slideIndex-1) });
+
+    slideshowModal.addEventListener('click', (e)=>{ if(e.target===slideshowModal) closeSlideshow(); });
+
+    /***********************
+     * Tableau des ponctuations (scores)
+     ***********************/
+    const scoresTableBody = document.querySelector('#scores-table tbody');
+    let scores = [];
+
+    function renderScores(){
+      scoresTableBody.innerHTML = '';
+      scores.forEach((p,idx)=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td><input value="${escapeHtml(p.name)}" data-idx="${idx}" class="name-input"/></td><td><input value="${p.points}" data-idx="${idx}" class="score-input"/></td><td><button data-idx="${idx}" class="btn remove">Suppr</button></td>`;
+        scoresTableBody.appendChild(tr);
+      });
+      // listeners
+      document.querySelectorAll('.remove').forEach(b=>b.addEventListener('click', (e)=>{ const i=+e.target.dataset.idx; scores.splice(i,1); renderScores()}))
+      document.querySelectorAll('.score-input').forEach(i=>i.addEventListener('change', (e)=>{ const idx=+e.target.dataset.idx; scores[idx].points = Number(e.target.value) || 0;}))
+      document.querySelectorAll('.name-input').forEach(i=>i.addEventListener('change', (e)=>{ const idx=+e.target.dataset.idx; scores[idx].name = e.target.value;}))
+    }
+
+    document.getElementById('add-player').addEventListener('click', ()=>{
+      const name = document.getElementById('new-player').value.trim() || 'Joueur ' + (scores.length+1);
+      scores.push({name, points:0}); document.getElementById('new-player').value=''; renderScores();
+    });
+
+    function exportCSV(){
+      const rows = [['player','points'], ...scores.map(s=>[s.name, s.points])];
+      const csv = rows.map(r => r.map(v => '"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+      const blob = new Blob([csv], {type:'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'scores.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+    document.getElementById('export-csv').addEventListener('click', exportCSV);
+
+    async function importCSVFromURL(url){
+      if(!url) return alert('Collez l\'URL RAW du CSV depuis GitHub dans le champs');
+      try{
+        const res = await fetch(url); if(!res.ok) throw new Error('HTTP '+res.status);
+        const text = await res.text();
+        parseCSV(text);
+      }catch(err){alert('Échec du chargement : '+err.message)}
+    }
+    document.getElementById('import-csv').addEventListener('click', ()=>{
+      importCSVFromURL(document.getElementById('csv-url').value.trim());
+    });
+
+    function parseCSV(text){
+      const lines = text.replace(/\r/g,'').split('\n').filter(l=>l.trim());
+      const parsed = lines.slice(1).map(l=>{const cols = l.split(',');return {name: cols[0].replace(/^"|"$/g,'').replace(/""/g,'"'), points: Number(cols[1].replace(/^"|"$/g,''))||0}});
+      scores = parsed; renderScores();
+    }
+
+    /***********************
+     * Utils
+     ***********************/
+    function escapeHtml(s){return String(s).replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+    /***********************
+     * Init
+     ***********************/
+    (function init(){
+      // crée les boutons audio
+      createTrackButtons();
+
+      // si le logo est absent, essayez de le remplacer
+      document.querySelector('.logo img').src = ASSETS.defaultLogo;
+
+      // charges d'exemple dans le tableau
+      scores = [ {name:'Equipe A', points:0}, {name:'Equipe B', points:0} ]; renderScores();
+
+      // Accessibility: espace/entrée pilote le bouton sélectionné
+      document.addEventListener('keydown', (e)=>{
+        if(e.key===' ' || e.key==='Enter'){
+          const el = document.activeElement; if(el && el.classList && el.classList.contains('track-btn')){ e.preventDefault(); el.click(); }
+        }
+      });
+    })();
+  // --- Chronomètre ---
+let timerInterval = null;
+let timerSeconds = 0;
+
+function updateTimer(){
+  const m = String(Math.floor(timerSeconds/60)).padStart(2,'0');
+  const s = String(timerSeconds%60).padStart(2,'0');
+  document.getElementById('timer-display').textContent = m + ':' + s;
+}
+
+document.getElementById('timer-start').addEventListener('click', () => {
+  if(timerInterval) return;
+  timerInterval = setInterval(() => {
+    timerSeconds++;
+    updateTimer();
+  }, 1000);
+});
+
+document.getElementById('timer-stop').addEventListener('click', () => {
+  clearInterval(timerInterval);
+  timerInterval = null;
+});
+
+document.getElementById('timer-reset').addEventListener('click', () => {
+  timerSeconds = 0;
+  updateTimer();
+});
+
+</script>
+</body>
+</html>
